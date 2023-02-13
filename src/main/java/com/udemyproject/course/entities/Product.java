@@ -13,17 +13,19 @@ public class Product implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private final Set<Category> categories = new HashSet<>();
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String name;
     private String description;
     private Double price;
-
     private String imageURL;
-
-    @Transient
-    private Set<Category> categories = new HashSet<>();
 
 
     public Product() {

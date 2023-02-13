@@ -1,5 +1,6 @@
 package com.udemyproject.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -12,17 +13,17 @@ import java.util.Set;
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @JsonIgnore
+    @ManyToMany(mappedBy = "categories")
+    private final Set<Product> products = new HashSet<>();
     @GeneratedValue
     @Id
     private Long id;
     private String name;
 
-    @Transient
-    private Set<Product> products = new HashSet<>();
 
-
-    public Category () {}
+    public Category() {
+    }
 
     public Category(Long id, String name) {
         this.id = id;
@@ -33,12 +34,12 @@ public class Category implements Serializable {
         return id;
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
     public String getName() {
