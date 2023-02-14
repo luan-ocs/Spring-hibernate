@@ -1,14 +1,8 @@
 package com.udemyproject.course.config;
 
-import com.udemyproject.course.entities.Category;
-import com.udemyproject.course.entities.Order;
-import com.udemyproject.course.entities.Product;
-import com.udemyproject.course.entities.User;
+import com.udemyproject.course.entities.*;
 import com.udemyproject.course.entities.enums.OrderStatus;
-import com.udemyproject.course.repositories.CategoryRepository;
-import com.udemyproject.course.repositories.OrderRepository;
-import com.udemyproject.course.repositories.ProductRepository;
-import com.udemyproject.course.repositories.UserRepository;
+import com.udemyproject.course.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +23,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 
     @Autowired
@@ -66,6 +63,13 @@ public class TestConfig implements CommandLineRunner {
         p4.getCategories().add(cat3);
         p5.getCategories().add(cat2);
 
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 }

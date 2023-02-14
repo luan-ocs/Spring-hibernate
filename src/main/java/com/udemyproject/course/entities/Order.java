@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -14,20 +16,17 @@ import java.util.Objects;
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @OneToMany(mappedBy = "id.order")
+    private final Set<OrderItem> items = new HashSet<>();
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
-
     private Integer orderStatus;
-
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
-
 
 
     public Order() {
@@ -46,7 +45,7 @@ public class Order implements Serializable {
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
-        if(orderStatus != null) {
+        if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
     }
@@ -71,6 +70,14 @@ public class Order implements Serializable {
         return client;
     }
 
+    public void setClient(User client) {
+        this.client = client;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,9 +89,5 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public void setClient(User client) {
-        this.client = client;
     }
 }
