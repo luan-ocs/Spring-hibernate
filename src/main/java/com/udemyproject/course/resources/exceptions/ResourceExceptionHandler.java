@@ -1,5 +1,6 @@
 package com.udemyproject.course.resources.exceptions;
 
+import com.udemyproject.course.services.exceptions.DatabaseException;
 import com.udemyproject.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,15 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest req) {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(error, Instant.now(), status.value(), e.getMessage(), req.getContextPath());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest req) {
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(error, Instant.now(), status.value(), e.getMessage(), req.getContextPath());
 
         return ResponseEntity.status(status).body(err);
