@@ -37,6 +37,8 @@ cd Spring-hibernate
 
 ## Autor
 
-Luan Otávio Costa Silva
-
+ <b>Luan Otávio Costa Silva</b>
+ 
+ Feito com ❤️ por Luan Otávio 👋🏽 Entre em contato!
+ 
 https://www.linkedin.com/in/luan-ot%C3%A1vio-a10b511b4/
